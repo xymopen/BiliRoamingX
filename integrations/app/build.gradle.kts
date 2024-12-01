@@ -9,12 +9,16 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
-setupAppModule {
+android {
     namespace = "app.revanced.bilibili.integrations"
+    compileSdkVersion(Versions.COMPILE_SDK)
+    ndkVersion = Versions.NDK
 
     defaultConfig {
         applicationId = "app.revanced.bilibili.integrations"
         multiDexEnabled = false
+        minSdk = Versions.MIN_SDK
+        targetSdk = Versions.TARGET_SDK
 
         val verName = version as String
         versionName = verName
@@ -24,6 +28,7 @@ setupAppModule {
 
         externalNativeBuild {
             cmake {
+                version = Versions.CMAKE
                 val flags = arrayOf(
                     "-Qunused-arguments",
                     "-Wno-gnu-string-literal-operator-template",
@@ -71,7 +76,7 @@ setupAppModule {
                 arguments += args
             }
         }
-        getByName("dev") {
+        create("dev") {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
@@ -121,7 +126,10 @@ setupAppModule {
 gradle.taskGraph.whenReady {
     if (gradle.taskGraph.allTasks.any { it.name == "distDev" }) {
         tasks.withType<R8Task> {
-            useFullR8.allowChanges()
+            val state = useFullR8.javaClass.superclass.declaredFields.first { it.name == "state" }
+                .also { it.isAccessible = true }.get(this)
+            state.javaClass.declaredFields.first { it.name == "disallowChanges" }
+                .also { it.isAccessible = true }.setBoolean(state, false)
             useFullR8 = false
         }
     }

@@ -2,8 +2,19 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
-setupLibraryModule {
+android {
     namespace = "app.revanced.bilibili.dummy"
+    compileSdkVersion(Versions.COMPILE_SDK)
+    ndkVersion = Versions.NDK
+
+    defaultConfig {
+        minSdk = Versions.MIN_SDK
+        targetSdk = Versions.TARGET_SDK
+    }
+
+    buildTypes {
+        create("dev")
+    }
 }
 
 dependencies {
