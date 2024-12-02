@@ -5,8 +5,6 @@ import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
-    `maven-publish`
-    signing
 }
 
 group = "app.revanced.bilibili"
@@ -78,63 +76,8 @@ tasks.register<JavaExec>("generatePatchesFiles") {
     mainClass.set("app.revanced.generator.Main")
 }
 
-tasks.publish {
-    dependsOn("buildDexJar")
-    dependsOn("generatePatchesFiles")
-}
-
 tasks.register("dist") {
     group = "build"
     dependsOn("buildDexJar")
     dependsOn("generatePatchesFiles")
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/BiliRoamingX/BiliRoamingX")
-            credentials {
-                username = project.findProperty("gpr.user") as String?
-                    ?: System.getenv("GITHUB_ACTOR")
-                password = project.findProperty("gpr.key") as String?
-                    ?: System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-
-    publications {
-        create<MavenPublication>("revanced-patches-publication") {
-            from(components["java"])
-
-            pom {
-                name = "BiliRoamingX Patches"
-                description = "Patches for BiliRoamingX."
-
-                licenses {
-                    license {
-                        name = "GNU General Public License v3.0"
-                        url = "https://www.gnu.org/licenses/gpl-3.0.en.html"
-                    }
-                }
-                developers {
-                    developer {
-                        id = "zjns"
-                        name = "Kofua"
-                    }
-                }
-                scm {
-                    connection = "scm:git:git://github.com/BiliRoamingX/BiliRoamingX.git"
-                    developerConnection = "scm:git:git@github.com:BiliRoamingX/BiliRoamingX.git"
-                    url = "https://github.com/BiliRoamingX/BiliRoamingX"
-                }
-            }
-        }
-    }
-}
-
-signing {
-    useGpgCmd()
-
-    sign(publishing.publications["revanced-patches-publication"])
 }
