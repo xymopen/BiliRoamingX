@@ -2,6 +2,12 @@ plugins {
     alias(libs.plugins.android.library)
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(Versions.JVM_TARGET)
+    }
+}
+
 android {
     namespace = "app.revanced.bilibili.extend"
     compileSdkVersion(Versions.COMPILE_SDK)

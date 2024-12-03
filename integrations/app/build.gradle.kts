@@ -9,6 +9,12 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(Versions.JVM_TARGET)
+    }
+}
+
 android {
     namespace = "app.revanced.bilibili.integrations"
     compileSdkVersion(Versions.COMPILE_SDK)

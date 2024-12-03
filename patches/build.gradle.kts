@@ -11,6 +11,12 @@ plugins {
 
 group = "app.revanced.bilibili"
 
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(Versions.JVM_TARGET_PATCHES)
+    }
+}
+
 dependencies {
     implementation(libs.revanced.patcher)
     implementation(libs.smali)

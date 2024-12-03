@@ -8,18 +8,6 @@ plugins {
     id("build-logic") apply false
 }
 
-allprojects {
-    plugins.withType<JavaBasePlugin>().configureEach {
-        extensions.configure<JavaPluginExtension> {
-            if (name == "patches") {
-                toolchain.languageVersion = JavaLanguageVersion.of(Versions.JVM_TARGET_PATCHES)
-            } else {
-                toolchain.languageVersion = JavaLanguageVersion.of(Versions.JVM_TARGET)
-            }
-        }
-    }
-}
-
 tasks.register<Delete>("clean") {
     group = "build"
     delete(layout.buildDirectory)
