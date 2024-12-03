@@ -82,12 +82,12 @@ android {
                 arguments += args
             }
         }
-        create("dev") {
+        debug {
             isMinifyEnabled = true
             signingConfig = signingConfigs.getByName("debug")
             proguardFiles(
                 getDefaultProguardFile("proguard-android.txt"),
-                "proguard-rules-dev.pro"
+                "proguard-rules-debug.pro"
             )
         }
         release {
@@ -130,7 +130,7 @@ android {
 }
 
 gradle.taskGraph.whenReady {
-    if (gradle.taskGraph.allTasks.any { it.name == "distDev" }) {
+    if (gradle.taskGraph.allTasks.any { it.name == "distDebug" }) {
         tasks.withType<R8Task> {
             val state = useFullR8.javaClass.superclass.declaredFields.first { it.name == "state" }
                 .also { it.isAccessible = true }.get(this)

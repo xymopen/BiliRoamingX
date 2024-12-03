@@ -18,10 +18,6 @@ android {
         targetSdk = Versions.TARGET_SDK
         consumerProguardFiles("consumer-rules.pro")
     }
-
-    buildTypes {
-        create("dev")
-    }
 }
 
 dependencies {

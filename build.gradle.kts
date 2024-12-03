@@ -17,7 +17,7 @@ tasks.register<Sync>("dist") {
     distTask(true)
 }
 
-tasks.register<Sync>("distDev") {
+tasks.register<Sync>("distDebug") {
     distTask(false)
 }
 
@@ -26,10 +26,10 @@ fun Sync.distTask(release: Boolean) {
     if (release) {
         dependsOn(":integrations:app:assembleRelease")
     } else {
-        dependsOn(":integrations:app:assembleDev")
+        dependsOn(":integrations:app:assembleDebug")
     }
     dependsOn(":patches:dist")
-    val path = if (release) "release" else "dev"
+    val path = if (release) "release" else "debug"
     from(project(":integrations:app").layout.buildDirectory.dir("outputs/apk/$path")) {
         include("*-$version.apk")
     }

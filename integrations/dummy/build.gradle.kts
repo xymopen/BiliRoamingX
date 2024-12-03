@@ -17,10 +17,6 @@ android {
         minSdk = Versions.MIN_SDK
         targetSdk = Versions.TARGET_SDK
     }
-
-    buildTypes {
-        create("dev")
-    }
 }
 
 dependencies {
